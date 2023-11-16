@@ -1,9 +1,52 @@
-import { useState } from "react";
+// import { useState, useEffect, useRef} from "react";
 
+// const Navbar = () => {
+//     const [dropdown, setDropdown] = useState(false);
+//     const ref = useRef();
+
+//     useEffect(() => {
+//     const hadler = (event) => {
+//         if(dropdown && ref.current && !ref.current.contains(event.target)){
+//             setDropdown(false);
+//         }
+//     };
+//     document.title = 'Current state value: ${dropdown}';}, [dropdown]);
+//     return (
+//         <nav>
+//             <ul>
+//                 <li>Home</li>
+//                 <li>About</li>
+//                 <li>
+//                     <button onClick={() => setDropdown((prev) => !prev)}>
+//                         Services <span>&#8595;</span>
+//                     </button>
+//                     {dropdown &&(                    
+//                     <ul>
+//                         <li>Design</li>
+//                         <li>Development</li>
+//                     </ul>)}
+//                 </li>
+//             </ul>
+//         </nav>
+//     );
+// };
+// export default Navbar;
+import { useOnClickOutside } from "@/useOnClickOutside";
+import { useState, useEffect, useRef } from "react";
 const Navbar = () => {
-    console.log(useState(false));
-    const [dropdown, setDropdown] = useState(false);
-    return (
+  const [dropdown, setDropdown] = useState(false);
+  const ref = useRef();
+  
+  useEffect(() => {
+    const handler = (event) => {
+      if (dropdown && ref.current && !ref.current.contains(event.target)) {
+        setDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+  }, [dropdown]);
+  
+  return (
         <nav>
             <ul>
                 <li>Home</li>
@@ -21,6 +64,6 @@ const Navbar = () => {
             </ul>
         </nav>
     );
+  
 };
-
 export default Navbar;
