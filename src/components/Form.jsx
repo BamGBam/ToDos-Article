@@ -1,21 +1,117 @@
 import { useState, useEffect, useRef } from "react";
 const Form = () => {
-    const hadleChange = (e) => {
-        setFname(e.target.value);
-    };
+    const handleChange = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setState((state) => ({
+          ...state,
+          [e.target.name]: value
+        }));
+      };
+      
 
-    const [fname, setFname] = useState()
+    const carBrands = ["Mercedes", "BMW", "Maserati", "Infinity", "Audi"];
+    const carBrandOption = carBrands.map((carBrand, key) => (
+        <option value ={carBrand} key={key}>
+            {carBrand}
+        </option>
+    ));
+    const [state, setState] = useState({
+        fname: "",
+        lname: "",
+        message: "",
+        carBrand: "",
+        isChecked: false,
+        gender: "",
+        price: 0,
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(state);
+      };
+
     return (
         <>
-        <h1>React form handling</h1>
+        <h1>Controlled form handling</h1>
+        <form onSubmit={handleSubmit}>
         <form>
             <label>
-                First Name: <input type="text" value ={fname} onChange={hadleChange}/>
+            <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={state.gender === "male"}
+                onChange={handleChange}
+            />{" "}
+            Male
             </label>
+            <label>
+            <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={state.gender === "female"}
+                onChange={handleChange}
+            />{" "}
+            Female
+            </label>
+            <label>
+                Price (between 0 and 50):
+                <input
+                type="range"
+                name="price"
+                min="0"
+                max="50"
+                value={state.price}
+                onChange={handleChange}
+                />
+            </label>            
+            <label>
+            name = "fname"
+                <input type="text" value ={state.fname} onChange={ handleChange}/>
+            </label>
+            <label>
+                name = "lname"
+                <input type="text" value ={state.lname} onChange={handleChange}/>
+            </label>   
+            <label>
+            <textarea name= "message" 
+            value = {state.message}
+            onChange ={handleChange}
+            />
+            </label>     
+            <label>
+                Car Brand:
+                <select
+                    name = "carBrand"
+                    value = {state.carBrand}
+                    onChange = {handleChange}>
+                    <option value ={""} disabled>
+                        --Pick a car brand----
+                    </option>
+                    {carBrandOption}
+                </select>
+            </label>  
+            <label>
+                <input 
+                    type= "checkbox"
+                    name = "ischeckbox"
+                    checked = {state.isChecked}
+                    onChange ={handleChange} />
+                    Is Checked?
+            </label>  
         </form>
-        <h5> First Name: {fname}</h5>
+        <button>Submit</button>
+        <h5> Name: {state.fname} {state.lname}</h5>
+        <p>Message: {state.message}</p>
+        <h5> my favorite car brand is: {state.carBrand}</h5>
+        <h5> Gender: {state.gender}</h5>
+        <h5> Price: ${state.price}</h5>
+        </form>
         </>
     );
 };
 
 export default Form;
+
+
